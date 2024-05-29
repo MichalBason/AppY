@@ -19,8 +19,6 @@ using namespace std;
 #pragma comment (lib, "AdvApi32.lib")
 
 
-#define DEFAULT_PORT_CLIENT "27015"
-#define DEFAULT_PORT_SERVER "27016"
 #define MATRIX_SIZE 256
 
 
@@ -84,9 +82,16 @@ short* recvMat(clientSocket* sock) {
 
 int __cdecl main(int argc, char** argv)
 {
+    const char* clientPort = "27015";
+    const char* serverPort = "27016";
+
+    if (argc == 3) {
+        serverPort = argv[1];
+        clientPort = argv[2];
+    }
     
-    clientSocket* cliSock = new clientSocket(DEFAULT_PORT_CLIENT);
-    serverSocket* servSock = new serverSocket(DEFAULT_PORT_SERVER);
+    clientSocket* cliSock = new clientSocket(clientPort);
+    serverSocket* servSock = new serverSocket(serverPort);
     // Receive until the peer closes the connection
     short* mat;
     while (true) {
